@@ -1,14 +1,7 @@
 from django.http import HttpResponse
+from django.shortcuts import render
 
 def home(request):
-    html = '''<!DOCTYPE html>
-              <html>
-              <head>
-              <title>Title of the website</title>
-              </head>
+    name = 'Bob'
 
-              <body>
-              <h1>The content of the document......</h1>
-              </body>
-              </html>'''
-    return HttpResponse(html)
+    return render(request, 'home.html', {'name': name})
