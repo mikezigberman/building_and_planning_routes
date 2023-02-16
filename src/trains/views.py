@@ -13,8 +13,7 @@ __all__ = (
     # 'TrainDeleteView', 'TrainDetailView',
 )
 
-# from trains.forms import HtmlForm, TrainForm
-
+from trains.forms import TrainForm
 
 def home(request, pk=None):
     qs = Train.objects.all()
