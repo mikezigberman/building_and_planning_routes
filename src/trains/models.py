@@ -40,9 +40,9 @@ class Train(models.Model):
 
 class TrainTest(models.Model):
     name = models.CharField(max_length=50, unique=True,
-                            verbose_name='Train number')
-    travel_time = models.PositiveSmallIntegerField(verbose_name='Travel time')
+                            verbose_name='Номер поезда')
     from_city = models.ForeignKey(City, on_delete=models.CASCADE,
                                   # null=True, blank=True,
                                   related_name='from_city',
-                                  verbose_name='From what city?')
+                                  verbose_name='Из какого города'
+                                  )
