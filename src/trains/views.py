@@ -9,8 +9,8 @@ from trains.models import Train
 
 __all__ = (
     'home', 'TrainListView', 'TrainDetailView',
-    # 'TrainCreateView', 'TrainUpdateView',
-    # 'TrainDeleteView', 'TrainDetailView',
+    'TrainCreateView', 'TrainUpdateView',
+    'TrainDeleteView', 'TrainDetailView',
 )
 
 from trains.forms import TrainForm
@@ -33,25 +33,25 @@ class TrainDetailView(DetailView):
     queryset = Train.objects.all()
     template_name = 'trains/detail.html'
 
-# class TrainCreateView(SuccessMessageMixin, CreateView):
-#    model = Train
-#    form_class = TrainForm
-#    template_name = 'trains/create.html'
-#    success_url = reverse_lazy('trains:home')
-#    success_message = "Train successfully created"
+class TrainCreateView(SuccessMessageMixin, CreateView):
+    model = Train
+    form_class = TrainForm
+    template_name = 'trains/create.html'
+    success_url = reverse_lazy('trains:home')
+    success_message = "Train was successfully created"
 
-# class TrainUpdateView(SuccessMessageMixin, UpdateView):
-#    model = Train
-#    form_class = TrainForm
-#    template_name = 'trains/update.html'
-#    success_url = reverse_lazy('trains:home')
-#    success_message = "Train successfully edited"
+class TrainUpdateView(SuccessMessageMixin, UpdateView):
+    model = Train
+    form_class = TrainForm
+    template_name = 'trains/update.html'
+    success_url = reverse_lazy('trains:home')
+    success_message = "Train was successfully edited"
 
-# class TrainDeleteView(DeleteView):
-#    model = Train
+class TrainDeleteView(DeleteView):
+    model = Train
     # template_name = 'trains/delete.html'
-#    success_url = reverse_lazy('trains:home')
+    success_url = reverse_lazy('trains:home')
 
-#    def get(self, request, *args, **kwargs):
-#        messages.success(request, 'Train deleted successfully')
-#        return self.post(self, request, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        messages.success(request, 'Train was deleted successfully')
+        return self.post(self, request, *args, **kwargs)
