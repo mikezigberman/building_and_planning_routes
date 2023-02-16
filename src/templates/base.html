@@ -1,4 +1,6 @@
 {% url 'cities:home' as cities_home_url %}
+{% url 'trains:home' as trains_home_url %}
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -19,8 +21,8 @@
         <li class="nav-item {% if request.path == cities_home_url %}active{% endif %} ">
           <a class="nav-link active" aria-current="page" href="{% url 'cities:home' %}">Cities</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+        <li class="nav-item {% if request.path == trains_home_url %}active{% endif %}">
+          <a class="nav-link" href="{% url 'trains:home' %}">Trains</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Pricing</a>

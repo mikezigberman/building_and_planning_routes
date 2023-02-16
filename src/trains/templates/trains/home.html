@@ -8,8 +8,8 @@
       <table class="table table-striped">
           <tr>
               <th>Number</th>
-              <th>Where from</th>
-              <th>Where come</th>
+              <th>Where from:</th>
+              <th>Where come:</th>
               <th>Travel time</th>
               <th>&nbsp;</th>
               <th>&nbsp;</th>
@@ -17,8 +17,7 @@
       {% for object in page_obj %}
           <tr>
               <td>
-                  {# <a href="{% url 'trains:detail' pk=object.pk %}">{{object.name}}</a> #}
-                  {{object.name}}
+                  <a href="{% url 'trains:detail' pk=object.pk %}">{{object.name}}</a>
               </td>
               <td>{{object.from_city}}</td>
               <td>{{object.to_city}}</td>
