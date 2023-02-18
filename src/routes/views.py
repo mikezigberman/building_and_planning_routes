@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from routes.forms import RouteForm, RouteModelForm
-from django.views.generic import ListView  # DetailView, DeleteView
+from django.views.generic import ListView, DetailView # DeleteView
 from routes.models import Route
 from routes.utils import get_routes
 from cities.models import City
@@ -69,3 +69,7 @@ class RouteListView(ListView):
     paginate_by = 10
     model = Route
     template_name = 'routes/list.html'
+
+class RouteDetailView(DetailView):
+    queryset = Route.objects.all()
+    template_name = 'routes/detail.html'
