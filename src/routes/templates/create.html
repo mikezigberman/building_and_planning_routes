@@ -4,6 +4,7 @@
 {% block content %}
 <h1>Create a route</h1>
 
-{% include 'form.html' with button='Save' %}
+{% url 'save_route' as action %}
+{% include 'form.html' with button='Save' action=action %}
 
 {% endblock %}
