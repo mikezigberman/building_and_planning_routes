@@ -1,5 +1,6 @@
 from trains.models import Train
 
+
 def dfs_paths(graph, start, goal):
     stack = [(start, [start])]
     while stack:
@@ -20,7 +21,6 @@ def get_graph(qs):
 
 def get_routes(request, form) -> dict:
     context = {'form': form}
-#    qs = Train.objects.all()
     qs = Train.objects.all().select_related('from_city', 'to_city')
     graph = get_graph(qs)
     data = form.cleaned_data
@@ -30,7 +30,7 @@ def get_routes(request, form) -> dict:
     travelling_time = data['travelling_time']
     all_ways = list(dfs_paths(graph, from_city.id, to_city.id))
     if not len(all_ways):
-        raise ValueError('There is no matching route')
+        raise ValueError('There is no route matching the conditions')
     if cities:
         _cities = [city.id for city in cities]
         right_ways = []
@@ -66,7 +66,7 @@ def get_routes(request, form) -> dict:
     else:
         times = list(set(r['total_time'] for r in routes))
         times = sorted(times)
-        for time in times :
+        for time in times:
             for route in routes:
                 if time == route['total_time']:
                     sorted_routes.append(route)

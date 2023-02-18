@@ -1,15 +1,15 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from routes.forms import RouteForm, RouteModelForm
-from django.views.generic import ListView, DetailView, DeleteView
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, DeleteView
+
+from cities.models import City
+from routes.forms import RouteForm, RouteModelForm
 from routes.models import Route
 from routes.utils import get_routes
-from cities.models import City
 from trains.models import Train
-
 
 # @login_required
 def home(request):
@@ -32,6 +32,7 @@ def find_routes(request):
         messages.error(request, "No data to search")
         return render(request, 'routes/home.html', {'form': form})
 
+
 def add_route(request):
     if request.method == "POST":
         context = {}
@@ -41,14 +42,17 @@ def add_route(request):
             from_city_id = int(data['from_city'])
             to_city_id = int(data['to_city'])
             trains = data['trains'].split(',')
-            trains_list = [int(t) for t in trains if t.isdigit()]
-            qs = Train.objects.filter(id__in=trains_list).select_related('from_city', 'to_city')
-            cities = City.objects.filter(id__in=[from_city_id, to_city_id]).in_bulk()
+            trains_lst = [int(t) for t in trains if t.isdigit()]
+            qs = Train.objects.filter(id__in=trains_lst).select_related(
+                'from_city', 'to_city')
+            cities = City.objects.filter(
+                id__in=[from_city_id, to_city_id]).in_bulk()
             form = RouteModelForm(
-                initial={'from_city': cities[from_city_id],
-                        'to_city': cities[to_city_id],
-                         'travel_times': total_time,
-                         'trains': qs
+                initial={
+                    'from_city': cities[from_city_id],
+                    'to_city': cities[to_city_id],
+                    'travel_times': total_time,
+                    'trains': qs
                          }
             )
             context['form'] = form
@@ -68,20 +72,17 @@ def save_route(request):
     else:
         messages.error(request, "Unable to save non-existent route")
         return redirect('/')
-
 class RouteListView(ListView):
     paginate_by = 10
     model = Route
     template_name = 'routes/list.html'
-
 class RouteDetailView(DetailView):
     queryset = Route.objects.all()
     template_name = 'routes/detail.html'
-
-class RouteDeleteView(LoginRequiredMixin,DeleteView):
+class RouteDeleteView(LoginRequiredMixin, DeleteView):
     model = Route
     success_url = reverse_lazy('home')
 
     def get(self, request, *args, **kwargs):
-        messages.success(request, 'Route was deleted successfully')
-        return self.post(self, request, *args, **kwargs)
+        messages.success(request, 'Route deleted successfully')
+        return self.post(request, *args, **kwargs)

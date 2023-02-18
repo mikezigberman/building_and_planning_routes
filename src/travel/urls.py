@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from routes.views import home, find_routes, add_route, save_route, \
-    RouteListView, RouteDetailView, RouteDeleteView
+from routes.views import (
+    home, find_routes, add_route, save_route, RouteListView, RouteDetailView,
+    RouteDeleteView
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
