@@ -1,9 +1,24 @@
 {% extends 'base.html' %}
-{% block title %}Creation of the city{% endblock %}
+{% block title %}Create a route{% endblock %}
 
 {% block content %}
-<h1>Creation of the city</h1>
+<h1>Create a route</h1>
 
-{% include 'form.html' with button='Save' %}
+<div class="row">
+    <div class="col-md-4">
+        <form action="{% url 'save_route' %}" method="post"> {% csrf_token %}
+            {% for field in form %}
+            <div class="fieldWrapper">
+                {{ field.errors }}
+                {{ field.label_tag }} {{ field }}
+                {% if field.help_text %}
+                <p class="help">{{ field.help_text|safe }}</p>
+           </div>
+            {% endfor %}
+            <br>
+            <button type="submit" class="btn btn-primary">Save</button>>
+        </form>
+    </div>
+</div>
 
 {% endblock %}
