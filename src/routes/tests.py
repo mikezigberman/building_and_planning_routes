@@ -3,7 +3,6 @@ from django.core.exceptions import ValidationError
 from django.urls import reverse
 from cities.models import City
 from trains.models import Train
-
 from routes import views as routes_view
 from cities import views as cities_view
 from routes.forms import RouteForm
@@ -104,3 +103,19 @@ class AllTestsCase(TestCase):
                 }
         form = RouteForm(data=data)
         self.assertFalse(form.is_valid())
+
+    def test_message_error_more_time(self):
+        data = {'from_city': self.city_A.id, 'to_city': self.city_E.id,
+                'cities': [self.city_C.id],
+                'travelling_time': 9
+                }
+        response = self.client.post('/find_routes/', data)
+        self.assertContains(response, 'Travel time is longer than specified', 1, 200)
+
+    def test_message_error_from_cities(self):
+        data = {'from_city': self.city_B.id, 'to_city': self.city_E.id,
+                'cities': [self.city_C.id],
+                'travelling_time': 349
+                }
+        response = self.client.post('/find_routes/', data)
+        self.assertContains(response, 'Route through these cities is not possible', 1, 200)
